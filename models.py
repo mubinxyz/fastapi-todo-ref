@@ -1,5 +1,5 @@
 # models.py
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, BigInteger
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from database import Base
 from datetime import datetime
@@ -10,9 +10,13 @@ class User(Base):
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     email: Mapped[str] = mapped_column(unique=True, index=True)
     hashed_password: Mapped[str]
-    role: Mapped[str] = mapped_column(default="user") # NEW: 'user' or 'admin'
+    role: Mapped[str] = mapped_column(default="user")
+    
+    # NEW: Link to Telegram. BigInteger is used because Telegram IDs are huge.
+    telegram_id: Mapped[int] = mapped_column(BigInteger, unique=True, nullable=True, index=True)
     
     todos: Mapped[list["Todo"]] = relationship(back_populates="owner", cascade="all, delete-orphan")
+
 
 class Todo(Base):
     __tablename__ = "todos"
