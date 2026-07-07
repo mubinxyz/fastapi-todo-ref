@@ -1,0 +1,24 @@
+.env
+.env.*
+
+tests/
+
+__pycache__/
+
+.venv/
+venv/
+env/
+
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDEs
+.vscode/
+.idea/
+
+
+# Logs
+*.log
+
+todos.db
