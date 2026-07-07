@@ -9,9 +9,9 @@ class User(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     email: Mapped[str] = mapped_column(unique=True, index=True)
-    hashed_password: Mapped[str] # We'll store plain text for now, upgrade to auth later!
+    hashed_password: Mapped[str]
+    role: Mapped[str] = mapped_column(default="user") # NEW: 'user' or 'admin'
     
-    # One User can have Many Todos
     todos: Mapped[list["Todo"]] = relationship(back_populates="owner", cascade="all, delete-orphan")
 
 class Todo(Base):
@@ -23,6 +23,5 @@ class Todo(Base):
     is_completed: Mapped[bool] = mapped_column(default=False)
     created_at: Mapped[datetime] = mapped_column(default=datetime.now)
     
-    # Foreign Key linking to the User
     owner_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     owner: Mapped["User"] = relationship(back_populates="todos")
